@@ -1,54 +1,55 @@
-Applied Data Mining – Final Team Project
-This repository showcases a complete, end-to-end data science project completed as part of a graduate-level Applied Data Mining course. The project demonstrates practical experience transforming raw clinical trial data into predictive insights using R.
+# Applied Data Mining – Final Team Project
 
-The work emphasizes rigorous data pre-processing, statistical validation, and model tuning, not just building algorithms.
+This repository showcases a **complete, end-to-end data science project** completed as part of a graduate-level course. The project demonstrates practical experience turning clinical-trial data into actionable insights with R.
 
-Project Objective
-Triamex Biotech provided clinical trial data for a new mRNA-2206 drug protocol and asked for insights into which patients are likely to respond to treatment.
+The work emphasizes **real-world data handling, analytical reasoning, and clear communication**, not just model building. :contentReference[oaicite:0]{index=0}
 
-The goal of the assignment was to:
+---
 
-Clean and prepare a complex clinical dataset of 1,000 patient records
+## Project Objective
 
-Identify biological and physiological markers linked to successful treatment outcomes
+A biotech sponsor (Triamex) asked: **can we predict which patients will respond to a new mRNA-2206 lung-cancer protocol?**  
+The assignment goals were to:
 
-Apply advanced machine-learning techniques to handle class imbalance and non-linear data
+- Understand outcome drivers from trial data  
+- Build and compare supervised models for **Responder vs NonResponder**  
+- Evaluate fairly with cross-validation and a held-out test set  
+- Translate results into next-step guidance for Phase II/III decisions :contentReference[oaicite:1]{index=1}
 
-Translate technical model performance into clinical insights to inform FDA submissions
+---
 
-What This Repository Contains
-A fully documented R Markdown report containing:
+## What This Repository Contains
 
-Data importing, median imputation, and outlier capping
+- A **fully documented R notebook** covering:  
+  - Data cleaning & preprocessing (imputation, scaling, one-hot, SMOTE)  
+  - Exploratory analysis & visualization  
+  - Model training/tuning (GLMnet, Random Forest, SVM-RBF, XGBoost)  
+  - Test-set evaluation (ROC-AUC primary; Accuracy, Kappa secondary) 
 
-Feature engineering, including one-hot encoding and SMOTE resampling
+- Exported **figures & tables**: combined ROC, box/dot plots of AUC across folds, tuning summaries, variable importance. 
 
-Exploratory data analysis with ggplot2 visualizations
+---
 
-Comparative modeling using GLMnet, Random Forest, SVM, and XGBoost
+## Dataset Overview
 
-Model evaluation through 3-fold cross-validation and ROC-AUC analysis
+Cleaned modeling table (~1,000 rows) with numeric and categorical predictors:
 
-The report is designed to be readable by a technical audience, providing clear justifications for every step of the analytical pipeline.
+- Numeric: `age`, `immune_response_score`, `biomarker_A`, `biomarker_B`, `tumor_volume_change`  
+- Categorical: `trial_arm` (Drug 1–3, Placebo), `side_effect`  
+- Target: `treatment_outcome` recoded to two levels (≈ 56% NonResponder / 44% Responder) :contentReference[oaicite:4]{index=4}
 
-Dataset Overview
-The dataset captures clinical and demographic features for patients participating in a Phase I lung cancer drug trial. Each row represents a single patient session and includes:
+EDA highlights:
 
-Patient demographics (age and weight)
+- Drug 3 shows the highest responder proportion; Placebo the lowest  
+- Mostly symmetric numeric distributions; weak pairwise correlations  
+- Up to ~5% missing in a few features; outliers modest and capped during prep :contentReference[oaicite:5]{index=5}
 
-Specific clinical markers (Biomarker A and Biomarker B)
+---
 
-Physiological engagement scores (Immune response and tumor volume change)
+## Key Takeaways
 
-A binary outcome indicating whether the patient was a "Responder" or "NonResponder"
+- **Signal exists but is modest.** Cross-validated AUCs cluster around **0.65–0.68**; Kappa ≈ **0.20**. :contentReference[oaicite:6]{index=6}  
+- **Best single test AUC**: SVM-RBF (~0.676). **Top accuracy**: SVM/RF (~0.62). :contentReference[oaicite:7]{index=7}  
+- **Recommended baseline**: **XGBoost** for stability (tight ROC distribution, narrower CI) and tunability, despite a slightly lower mean AUC. Prioritize calibration and thresholding for decisions. :contentReference[oaicite:8]{index=8}  
+- **Next steps**: expand features (genomics/longitudinal), larger N, consider survival & causal analyses; pilot model in Phase II for calibration. :contentReference[oaicite:9]{index=9}
 
-Key Takeaways
-Immune response is the strongest signal: Patients with higher immune_response_score metrics were significantly more likely to be classified as Responders (p=0.034).
-
-Non-linear models outperform linear ones: The SVM with a Radial Basis Function kernel achieved the best balance of AUC (0.676) and Accuracy, effectively capturing complex decision boundaries.
-
-Handling imbalance is critical: Applying SMOTE resampling was essential to prevent model bias, as the dataset was naturally weighted toward NonResponders.
-
-Biomarkers provide secondary support: While not as strong as immune scores, biomarker_B showed a secondary correlation that helped refine model sensitivity.
-
-Phase I data has inherent limits: The modest overall predictive power highlights that while key signals exist, clinical outcomes are influenced by factors beyond the current feature set.
