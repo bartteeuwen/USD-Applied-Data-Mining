@@ -2,7 +2,7 @@
 
 This repository showcases a **complete, end-to-end data science project** completed as part of a graduate-level course. The project demonstrates practical experience turning clinical-trial data into actionable insights with R.
 
-The work emphasizes **real-world data handling, analytical reasoning, and clear communication**, not just model building. :contentReference[oaicite:0]{index=0}
+The work emphasizes **real-world data handling, analytical reasoning, and clear communication**, not just model building.
 
 ---
 
