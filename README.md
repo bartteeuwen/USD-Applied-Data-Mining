@@ -1,6 +1,6 @@
 # Applied Data Mining – Final Team Project
 
-This repository showcases a **complete, end-to-end data science project** completed as part of a graduate-level course. The project demonstrates practical experience turning clinical-trial data into actionable insights with R.
+This repository showcases a **complete, end-to-end data science project** completed as part of a graduate-level Applied Data Science course. The project demonstrates practical experience transforming raw clinical trial data into actionable insights using R.
 
 The work emphasizes **real-world data handling, analytical reasoning, and clear communication**, not just model building.
 
@@ -8,48 +8,44 @@ The work emphasizes **real-world data handling, analytical reasoning, and clear 
 
 ## Project Objective
 
-A biotech sponsor (Triamex) asked: **can we predict which patients will respond to a new mRNA-2206 lung-cancer protocol?**  
-The assignment goals were to:
+A biotech company (Triamex Biotech) conducted a trial to evaluate their new lung cancer drug protocol, mRNA-2206. The primary goal was to determine what factors drive patient response to the treatment.
 
-- Understand outcome drivers from trial data  
-- Build and compare supervised models for **Responder vs NonResponder**  
-- Evaluate fairly with cross-validation and a held-out test set  
-- Translate results into next-step guidance for Phase II/III decisions
+The goal of the assignment was to:
+* Understand patient behavior and clinical outcomes from raw trial data
+* Identify biological patterns linked to successful treatment "Responders"
+* Apply appropriate statistical and machine learning techniques to assess drug efficacy
+* Translate findings into strategic insights to inform FDA approval and Phase II trial planning
 
 ---
 
 ## What This Repository Contains
 
-- A **fully documented R notebook** covering:  
-  - Data cleaning & preprocessing (imputation, scaling, one-hot, SMOTE)  
-  - Exploratory analysis & visualization  
-  - Model training/tuning (GLMnet, Random Forest, SVM-RBF, XGBoost)  
-  - Test-set evaluation (ROC-AUC primary; Accuracy, Kappa secondary) 
+* **A fully documented R notebook** containing:
+    * Data importing, cleaning, and preprocessing (median imputation and scaling).
+    * Feature engineering and transformation (addressing class imbalance with SMOTE).
+    * Exploratory data analysis and visualizations.
+    * Statistical testing (ANOVA and Kruskal-Wallis) to identify significant predictors.
+    * Predictive modeling (XGBoost, Random Forest, SVM, and GLMnet) and rigorous evaluation.
 
-- Exported **figures & tables**: combined ROC, box/dot plots of AUC across folds, tuning summaries, variable importance. 
+The notebook is designed to be readable by both technical and non-technical audiences, with explanations provided alongside code and outputs.
+
 
 ---
 
 ## Dataset Overview
 
-Cleaned modeling table (~1,000 rows) with numeric and categorical predictors:
+The dataset captures **clinical trial behavior** for 1,000 lung cancer patients. Each row represents a unique participant and includes:
 
-- Numeric: `age`, `immune_response_score`, `biomarker_A`, `biomarker_B`, `tumor_volume_change`  
-- Categorical: `trial_arm` (Drug 1–3, Placebo), `side_effect`  
-- Target: `treatment_outcome` recoded to two levels (≈ 56% NonResponder / 44% Responder)
-
-EDA highlights:
-
-- Drug 3 shows the highest responder proportion; Placebo the lowest  
-- Mostly symmetric numeric distributions; weak pairwise correlations  
-- Up to ~5% missing in a few features; outliers modest and capped during prep
+* **Patient profiles:** Demographic information such as age and gender.
+* **Clinical markers:** Immune response scores and specific biological markers (Biomarker A and B).
+* **Treatment details:** Trial arm assignments (Drug 1, 2, 3, or Placebo) and side effect tracking.
+* **A binary outcome:** Indicating whether the patient was a "Responder" or "NonResponder" to the treatment.
 
 ---
 
 ## Key Takeaways
 
-- **Signal exists but is modest.** Cross-validated AUCs cluster around **0.65–0.68**; Kappa ≈ **0.20**. 
-- **Best single test AUC**: SVM-RBF (~0.676). **Top accuracy**: SVM/RF (~0.62).
-- **Recommended baseline**: **XGBoost** for stability (tight ROC distribution, narrower CI) and tunability, despite a slightly lower mean AUC. Prioritize calibration and thresholding for decisions.
-- **Next steps**: expand features (genomics/longitudinal), larger N, consider survival & causal analyses; pilot model in Phase II for calibration.
-
+* **Biological signals matter:** Immune response scores and Biomarker B were identified as the most significant indicators of whether a patient would respond to treatment.
+* **Drug 3 shows promise:** Initial analysis revealed that participants assigned to "Drug 3" had the highest proportion of successful responses compared to other trial arms.
+* **Stability is critical for deployment:** While several models were tested, **XGBoost** was selected as the optimal choice due to its consistent, stable performance and lower variability, which is essential for predicting outcomes on new, unseen patients.
+* **Data-driven roadmap for Phase II:** The analysis suggests that while a predictive signal exists, future trials should expand data collection to include genomic data to further increase accuracy before wider deployment.
